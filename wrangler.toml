@@ -1,0 +1,9 @@
+name = "my-static-site"
+type = "webpack"
+route = 'serverless.dustinsoftware.com/*'
+zone_id = '5d56d1d3af70c5076eba9dd173066ee0'
+usage_model = ''
+compatibility_flags = []
+workers_dev = true
+site = {bucket = "_site",entry-point = "workers-site"}
+account_id = '844c5fdaa830920e8fa45a8e00cbefb6'
