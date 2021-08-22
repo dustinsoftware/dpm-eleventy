@@ -9,6 +9,27 @@ import { getAssetFromKV, mapRequestToAsset } from '@cloudflare/kv-asset-handler'
  */
 const DEBUG = false
 
+class ElementHandler {
+  constructor(event) {
+    this.event = event;
+  }
+  element(element) {
+    // An incoming element, such as `div`
+    console.log(`Incoming element: ${element.tagName}`)
+    if (element.getAttribute('data-id') === 'city') {
+      element.setInnerContent(this.event.request.cf.city);
+    }
+  }
+
+  comments(comment) {
+    // An incoming comment
+  }
+
+  text(text) {
+    // An incoming piece of text
+  }
+}
+
 addEventListener('fetch', event => {
   try {
     event.respondWith(handleEvent(event))
@@ -52,7 +73,7 @@ async function handleEvent(event) {
     response.headers.set("Referrer-Policy", "unsafe-url");
     response.headers.set("Feature-Policy", "none");
 
-    return response;
+    return new HTMLRewriter().on("*", new ElementHandler(event)).transform(response);
 
   } catch (e) {
     // if an error is thrown try to serve the asset at 404.html
